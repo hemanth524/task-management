@@ -7,11 +7,13 @@ import tasks2 from "../assets/tasks2.jpg";
 
 const Home = () => {
   const authState = useSelector(state => state.authReducer);
-  const { isLoggedIn } = authState;
+  const { isLoggedIn, user } = authState;
+
+ 
 
   useEffect(() => {
-    document.title = isLoggedIn ? `${authState.user.name}'s tasks` : "Task Manager";
-  }, [authState]);
+    document.title = isLoggedIn ? `${user.name}'s tasks` : "Task Manager";
+  }, [isLoggedIn, user?.name]);
 
   return (
     <MainLayout>
@@ -37,7 +39,7 @@ const Home = () => {
         </div>
       ) : (
         <>
-          <h1 className='text-lg mt-8 mx-8 border-b border-b-gray-300'>Welcome {authState.user.name}</h1>
+          <h1 className='text-lg mt-8 mx-8 border-b border-b-gray-300'>Welcome {user.name}</h1>
           <Tasks />
         </>
       )}
@@ -46,3 +48,4 @@ const Home = () => {
 }
 
 export default Home;
+

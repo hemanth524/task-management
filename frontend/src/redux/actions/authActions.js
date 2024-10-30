@@ -48,3 +48,22 @@ export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
   document.location.href = '/';
 }
+
+export const checkAuthToken = () => async (dispatch) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const { data } = await api.get('/profile', {
+        headers: { Authorization: token },
+      });
+      dispatch({
+        type: SAVE_PROFILE,
+        payload: { user: data.user, token },
+      });
+    } catch (error) {
+      dispatch(logout()); // If the token is invalid or the request fails, log out the user
+    }
+  } else {
+    dispatch(logout());
+  }
+};
